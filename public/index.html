@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LP Tracker</title>
+  <style>
+    body { font-family: sans-serif; background: #121212; color: white; text-align: center; padding: 50px; }
+    .card { background: #1e1e1e; padding: 30px; border-radius: 12px; display: inline-block; box-shadow: 0 0 10px #000; }
+    h1 { color: #4ade80; }
+    #lp { font-size: 2rem; margin: 20px 0; }
+    #to-emerald { color: #93c5fd; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>LP Tracker: 2024MUSIC#2024 (EUW)</h1>
+    <div id="lp">Loading LP...</div>
+    <div id="to-emerald"></div>
+  </div>
+
+  <script>
+    fetch("/.netlify/functions/fetch-lp")
+      .then(res => res.json())
+      .then(data => {
+        if (data.lp !== undefined) {
+          document.getElementById("lp").innerText = `${data.lp} LP — ${data.tier} ${data.rank}`;
+          document.getElementById("to-emerald").innerText = `Tyle LP brakuje do Emerald IV: ${data.lpToEmerald}`;
+        } else {
+          document.getElementById("lp").innerText = "Błąd ładowania LP.";
+        }
+      })
+      .catch(err => {
+        document.getElementById("lp").innerText = "Błąd połączenia.";
+      });
+  </script>
+</body>
+</html>
